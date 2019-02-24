@@ -25,8 +25,10 @@ end
 # -------------------------------------------------
 def update_html_file
   html = File.read("./statuspage-template.html");
-  success_fragment = File.read("./statuspage-fragment-success.html");
-  failure_fragment = File.read("./statuspage-fragment-failure.html");
+  success_fragment  = File.read("./statuspage-fragment-success.html");
+  failure_fragment  = File.read("./statuspage-fragment-failure.html");
+  almost_fragment   = File.read("./statuspage-fragment-almostthere.html");
+  nailedit_fragment = File.read("./statuspage-fragment-nailedit.html");
 
   # Loop through the rovers 2d array and replace the
   # {XX} placeholders with actual rover results
@@ -43,12 +45,35 @@ def update_html_file
     end
   end
 
+  # Set the success status for each team
+  # There has to be a better way to do this but oh well.
+  if ($rovers[1][1] and $rovers[2][1] and $rovers[3][1])
+    html.sub! "{Team1Status}", nailedit_fragment
+  else
+    html.sub! "{Team1Status}", almost_fragment
+  end
+
+  if ($rovers[1][2] and $rovers[2][2] and $rovers[3][2])
+    html.sub! "{Team2Status}", nailedit_fragment
+  else
+    html.sub! "{Team2Status}", almost_fragment
+  end
+
+  if ($rovers[1][3] and $rovers[2][3] and $rovers[3][3])
+    html.sub! "{Team3Status}", nailedit_fragment
+  else
+    html.sub! "{Team3Status}", almost_fragment
+  end
+
   File.open("./monitor.html", "w") { |file| file.write(html) }
 end # update_html_file
 
 
+# Update the HTML file to clear out any previous results
+update_html_file
 
-
+# Enter an infinite loop to await rover results and update
+# the monitoring board
 loop do
 
   # -------------------------------------------------

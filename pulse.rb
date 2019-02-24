@@ -3,10 +3,10 @@
 require 'socket'  # required to communicate with the monitoring station
 
 # Set the station number below
-station_number = "1"
+station_number = "3"
 
 # Connect to the monitoring station
-server_address = "localhost"
+server_address = "127.0.0.1"
 
 # Pre-programmed MIFARE NFC chip id's below:
 rover1  = "f7 9a 1f 01"
@@ -17,7 +17,7 @@ rover4  = "a0 5f b1 55"
 
 # Enter the main loop of the program
 while true
-  output = `/home/pi/Software/working/nfc-pulse 2>/dev/null`
+  output = `./nfc-pulse 2>/dev/null`
 
   outputstring = station_number
 
